@@ -2,53 +2,50 @@ service: aws-python3
 
 plugins:
   - serverless-pseudo-parameters
+  - serverless-python-requirements
 
 provider:
   name: aws
   runtime: python3.7
-  region: eu-west-1
-  stage: prod
-  profile: jmcore
   
   environment:
-    region: ${ self:provider.region }
+    stage: ${ self:provider.stage }
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "lambda:InvokeFunction"
+      Resource: 
+        - arn:aws:lambda:${ self:provider.region }:#{ AWS::AccountId }:function:aws-python3-${ self:provider.stage }-stop-instances
+        - arn:aws:lambda:${ self:provider.region }:#{ AWS::AccountId }:function:aws-python3-${ self:provider.stage }-start-instances
+    - Effect: "Allow"
+      Action: 
+        - "ec2:DescribeInstances"
+        - "ec2:DescribeRegions"
+      Resource: "*"
+    - Effect: "Allow"
+      Action: 
+        - "ec2:StartInstances"
+        - "ec2:StopInstances"
+      Resource: arn:aws:ec2:*:*:instance/*
 
 functions:
   scan-stop-instances:
     handler: functions/account-management/account-scan-stop-instances.handler
     environment:
       stop_lambda_function: aws-python3-${ self:provider.stage }-stop-instances
-    iamRoleStatements:
-      - Effect: "Allow"
-        Action:
-          - "lambda:InvokeFunction"
-        Resource: arn:aws:lambda:${ self:provider.region }:#{ AWS::AccountId }:function:aws-python3-${ self:provider.stage }-stop-instances
-      - Effect: "Allow"
-        Action: "ec2:DescribeInstances"
-        Resource: "*"
+    timeout: 15
+    events:
+      - schedule: rate(30 minutes)
   scan-start-instances:
     handler: functions/account-management/account-scan-start-instances.handler
     environment:
       start_lambda_function: aws-python3-${ self:provider.stage }-start-instances
-    iamRoleStatements:
-      - Effect: "Allow"
-        Action:
-          - "lambda:InvokeFunction"
-        Resource: arn:aws:lambda:${ self:provider.region }:#{ AWS::AccountId }:function:aws-python3-${ self:provider.stage }-start-instances
-      - Effect: "Allow"
-        Action: "ec2:DescribeInstances"
-        Resource: "*"
+    timeout: 15
+    events:
+      - schedule: rate(30 minutes)
   start-instances:
     handler: functions/instances-management/start-instances.handler
-    iamRoleStatements:
-      - Effect: "Allow"
-        Action: "ec2:StartInstances"
-        Resource: arn:aws:ec2:*:*:instance/*
   stop-instances:
     handler: functions/instances-management/stop-instances.handler
-    iamRoleStatements:
-      - Effect: "Allow"
-        Action: "ec2:StopInstances"
-        Resource: arn:aws:ec2:*:*:instance/*
 
 
