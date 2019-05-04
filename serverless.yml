@@ -7,9 +7,13 @@ plugins:
 provider:
   name: aws
   runtime: python3.7
+  stage: production
+  region: eu-west-1
   
   environment:
     stage: ${ self:provider.stage }
+    default_region: ${ self:provider.region }
+    default_timezone: Europe/Madrid
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -29,17 +33,11 @@ provider:
       Resource: arn:aws:ec2:*:*:instance/*
 
 functions:
-  scan-stop-instances:
-    handler: functions/account-management/account-scan-stop-instances.handler
+  get-instances-to-operate:
+    handler: functions/account-management/get-instances-to-operate.handler
     environment:
-      stop_lambda_function: aws-python3-${ self:provider.stage }-stop-instances
-    timeout: 15
-    events:
-      - schedule: rate(30 minutes)
-  scan-start-instances:
-    handler: functions/account-management/account-scan-start-instances.handler
-    environment:
-      start_lambda_function: aws-python3-${ self:provider.stage }-start-instances
+      stop_instances_function_name: aws-python3-${ self:provider.stage }-stop-instances
+      start_instances_function_name: aws-python3-${ self:provider.stage }-start-instances
     timeout: 15
     events:
       - schedule: rate(30 minutes)
