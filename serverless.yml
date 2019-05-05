@@ -7,8 +7,8 @@ plugins:
 provider:
   name: aws
   runtime: python3.7
-  stage: production
-  region: eu-west-1
+  stage: ${ opt:stage, 'dev' }
+  region: ${ opt:region, 'eu-west-1' }
   
   environment:
     stage: ${ self:provider.stage }

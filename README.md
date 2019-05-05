@@ -1,4 +1,4 @@
-# AWS EC2 scheduled start-stop instances serverless
+# AWS account tools serverless
 This project is intended to create a fully serverless infraestructure for start-stop EC2 instances scheduled jobs.
 
 It will create a cloudformation stack with all the necessary artifacts:
