@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/neovasili/aws-account-tools-serverless.svg?branch=develop)](https://travis-ci.com/neovasili/aws-account-tools-serverless)
+[![Build Status](https://travis-ci.org/neovasili/aws-account-tools-serverless.svg?branch=master)](https://travis-ci.org/neovasili/aws-account-tools-serverless)
 
 # AWS account tools serverless
 This project is intended to create a fully serverless infraestructure for AWS account management using some utils functions such as start-stop instances batches, backup creation-retention... and so on.
