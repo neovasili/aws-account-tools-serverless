@@ -4,6 +4,10 @@ dist: xenial
 sudo: true
 node_js: 10
 
+branches:
+  only:
+  - master
+
 before_install:
   - npm install -g serverless
 
