@@ -4,6 +4,10 @@ dist: xenial
 sudo: true
 node_js: 10
 
+branches:
+  only:
+  - master
+
 before_install:
   - npm install -g serverless
 
@@ -11,5 +15,5 @@ install:
   - pip install -r requirements.txt --user
   - npm install
 
-script: 
+deploy: 
   - sls deploy --stage production
