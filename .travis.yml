@@ -3,17 +3,19 @@ python: 3.7
 dist: xenial
 sudo: true
 node_js: 10
-
 branches:
   only:
   - master
-
 before_install:
-  - npm install -g serverless
-
+- npm install -g serverless
 install:
-  - pip install -r requirements.txt --user
-  - npm install
-
-script: 
-  - sls deploy --stage production
+- pip install -r requirements.txt --user
+- npm install
+script:
+- sls deploy --stage production
+notifications:
+  slack:
+    rooms:
+      secure: 4NP1FxjJyJiwdW6yGmpzfUvn/fSHyBDarFNVGy8rFLJk8yaD33ehTuJRcKeKqlmFkohhEBAWimCC+CR87BnlPLTzEjFUIOPBp03/vZaxbJy3KnSHCwCKlj/kJCtJSKix4cDapAgFycLD2NwDMoEyeCUOUb2xgtl7X/phR2FHxzSCfU344WrF00wayoD5Iqc5UyJGr6UmBwQyrm/jkL5jreCEmey+rsMu6ExHz0TXCfSKRlfGM3GX9qwH+N5AFCz+G0ij5wJtnjGCfzKfJpa+2w8+d5mwBGoJcT/8R4mC9/5kqG+mEF9qStCnGoSO+p5Fp/ceNdUnA5/8f3yOU89Hcy3Pe09iYIHeJ/tGym3SX5E6KlzCr2VwHxXzHKwKvPsG5Xd+UZ06r0Hi+Jk0bzlduVRf/mSt0txQ+GH2f2dq/OtslChr3B1h3xvrCrdWFqwODnSfQfzdhCjzY1qd9h6Oyhc9IyctGNpaDWET24q6D8koSwPpg/WgfWcam72IZdun3B3TBu0no17ScljqIZ3xAHvsEkZ//nvVnGcHIPsOjW+dKJDlCQJ2cI7SY1oUTz2GLZ/Ff6cjjkznYGA1kJQ7BWWC2ccs3XxYs0SMhuWode6g1Aby3/W/WG1hhG6NVtKw7dqG7sbJIZh2F+QPjYSS/ZEHQwzvKWobSaZnNW6xcZI=
+    on_success: change
+    on_failure: always
