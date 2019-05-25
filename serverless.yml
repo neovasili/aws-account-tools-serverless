@@ -2,7 +2,6 @@ service: aws-python3
 
 plugins:
   - serverless-pseudo-parameters
-  - serverless-python-requirements
 
 provider:
   name: aws
